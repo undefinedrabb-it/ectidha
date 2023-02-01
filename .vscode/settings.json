@@ -1,0 +1,10 @@
+{
+    "eslint.validate": [
+      {
+        "language": "typescript",
+      },
+      {
+        "language": "typescriptreact",
+      }
+    ],
+  }
