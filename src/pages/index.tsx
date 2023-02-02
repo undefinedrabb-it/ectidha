@@ -117,6 +117,7 @@ const Circle = ({
   </div>
 );
 
+const flag = false;
 const thoughts = [
   { id: 'lib', color: 'bg-[#ffe800]' },
   { id: 'liber', color: undefined },
@@ -179,17 +180,19 @@ const Home = ({ mpsE, clubsE }: Props) => {
               <Circle key={`${id}-${i}`} color={color} isHidden={isHidden} />
             ))}
           </div>
-        </div>
-        <div className="flex">
+          {flag && (
+            <div className="flex flex-col">
           {thoughts.map(({ id, color }, i) => (
             <div
-              className=" m-2 flex flex-row items-center "
+                  className="m-2 flex flex-row items-center "
               key={`${id}-${i}`}
             >
               <Circle color={color} />
               <div className="ml-2 text-lg text-white">{id}</div>
             </div>
           ))}
+            </div>
+          )}
         </div>
       </main>
     </>
