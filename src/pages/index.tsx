@@ -100,14 +100,14 @@ export async function getStaticProps() {
 type Props = Awaited<ReturnType<typeof getStaticProps>>['props'];
 
 const bg = (color?: string) => (color ? color : 'bg-white');
-const op = (isHidden?: boolean) => (isHidden ? 'opacity-10' : '');
+const op = (isHidden?: boolean | null) => (isHidden ? 'opacity-10' : '');
 
 const Circle = ({
   color,
-  isHidden: isHidden,
+  isHidden,
 }: {
   color?: string;
-  isHidden?: boolean;
+  isHidden?: boolean | null;
 }) => (
   <div
     className={`h-10 w-10 min-w-fit rounded-full border-2 border-solid 
@@ -133,21 +133,34 @@ const Home = ({ mpsE, clubsE }: Props) => {
   const [focused, setF] = React.useState<ClubK | null>(null);
 
   const [mps, setMps] = React.useState(
-    mpsE.map(mp => ({ ...mp, isHidden: true })),
+    mpsE.map(mp => ({ ...mp, isHidden: false })),
+  );
+  const [clubs, setClubs] = React.useState(
+    clubsE.map(c => ({ ...c, isHidden: false })),
   );
 
-  const clubs = clubsE;
-  // const mps = mpsE;
-
   useEffect(() => {
-    setMps(p =>
-      p.map(mp =>
-        !focused || mp.club === focused
-          ? { ...mp, isHidden: false }
-          : { ...mp, isHidden: true },
-      ),
-    );
-  }, [focused]);
+    const t = setTimeout(() => {
+      setMps(p =>
+        p.map(pmp =>
+          !focused || pmp.club === focused
+            ? { ...pmp, isHidden: false }
+            : { ...pmp, isHidden: true },
+        ),
+      );
+      setClubs(p =>
+        p.map(pc =>
+          !focused || pc.id === focused
+            ? { ...pc, isHidden: false }
+            : { ...pc, isHidden: true },
+        ),
+      );
+    }, 100);
+    return () => clearTimeout(t);
+  }, [focused, setMps]);
+
+  const setOrToggleIfSame = (id: ClubK) => () =>
+    setF(id === focused ? null : id);
 
   return (
     <>
@@ -157,40 +170,41 @@ const Home = ({ mpsE, clubsE }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className="bg-gray-800"
+        className=" h-screen w-screen overflow-hidden bg-gray-800"
         onFocus={() => setF(null)}
         onBlur={() => setF(null)}
       >
-        <div className="flex-rows flex  flex-auto flex-wrap">
-          <div className="flex w-1/4 flex-col ">
-            {clubs.map(({ id, color }, i) => (
+        <div className="flex-rows flex flex-wrap justify-around p-4">
+          <div className="flex flex-col gap-2">
+            {clubs.map(({ id, color, isHidden }, i) => (
               <button
                 key={`${id}-${i}`}
-                onClick={() => setF(id === focused ? null : id)}
+                className="flex-rows flex items-center p-1"
+                onClick={setOrToggleIfSame(id)}
               >
-                <div className="flex-rows m-2 flex items-center">
-                  <Circle color={color} />
-                  <div className="ml-2 text-lg text-white">{id}</div>
-                </div>
+                <Circle color={color} isHidden={isHidden} />
+                <div className="ml-2 text-lg text-white">{id}</div>
               </button>
             ))}
           </div>
           <div className="grid w-3/4 grid-cols-23 gap-1">
-            {mps.map(({ id, color, isHidden }, i) => (
-              <Circle key={`${id}-${i}`} color={color} isHidden={isHidden} />
+            {mps.map(({ id, color, club, isHidden }, i) => (
+              <button key={`${id}-${i}`} onClick={setOrToggleIfSame(club)}>
+                <Circle color={color} isHidden={isHidden} />
+              </button>
             ))}
           </div>
           {flag && (
             <div className="flex flex-col">
-          {thoughts.map(({ id, color }, i) => (
-            <div
+              {thoughts.map(({ id, color }, i) => (
+                <div
                   className="m-2 flex flex-row items-center "
-              key={`${id}-${i}`}
-            >
-              <Circle color={color} />
-              <div className="ml-2 text-lg text-white">{id}</div>
-            </div>
-          ))}
+                  key={`${id}-${i}`}
+                >
+                  <Circle color={color} />
+                  <div className="ml-2 text-lg text-white">{id}</div>
+                </div>
+              ))}
             </div>
           )}
         </div>
