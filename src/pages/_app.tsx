@@ -4,7 +4,7 @@ import React from 'react';
 
 import '../styles/globals.css';
 
-// eslint-disable-next-line react/prop-types
+// eslint-disable-next-line react/prop-types -- s
 const MyApp: AppType = ({ Component, pageProps }) => {
   return <Component {...pageProps} />;
 };

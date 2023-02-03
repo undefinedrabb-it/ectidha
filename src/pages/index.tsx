@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import React, { useEffect } from 'react';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
 type ClubK =
   | 'KO'
@@ -58,12 +59,14 @@ const clubS: readonly string[] = Object.keys(clubsC);
 type MPEnhanedT = Pick<MPT, 'id' | 'club'> & { color: string };
 type ClubsEnhanedT = Pick<ClubT, 'id' | 'name'> & { color: string };
 
+const TERM = 9;
+
 export async function getStaticProps() {
   //TODO error handling
 
   const [resMPs, resClubs] = await Promise.all([
-    fetch('http://api.sejm.gov.pl/sejm/term9/MP'),
-    fetch('http://api.sejm.gov.pl/sejm/term9/clubs'),
+    fetch(`http://api.sejm.gov.pl/sejm/term${TERM}/MP`),
+    fetch(`http://api.sejm.gov.pl/sejm/term${TERM}/clubs`),
   ]);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- h
@@ -111,11 +114,49 @@ const Circle = ({
 }) => (
   <div
     className={`h-10 w-10 min-w-fit rounded-full border-2 border-solid 
-    border-white ${bg(color)} ${op(isHidden)}`}
+    border-white ${bg(color)} ${op(
+      isHidden,
+    )} flex place-content-center items-center justify-center`}
   >
     {' '}
   </div>
 );
+
+const CircleWithLogo = ({
+  color,
+  isHidden,
+  imgUrl,
+}: {
+  color?: string;
+  isHidden?: boolean | null;
+  imgUrl: string;
+}) => {
+  const [showImg, setShowImg] = useState(true);
+
+  return (
+    <div
+      className={`h-10 w-10 min-w-fit rounded-full border-2 border-solid 
+    border-white ${bg(color)} ${op(
+        isHidden,
+      )} flex place-content-center items-center justify-center`}
+    >
+      {showImg ? (
+        <Image
+          alt="logo"
+          className="h-8 w-8 rounded-full"
+          src={imgUrl}
+          width={50}
+          height={50}
+          onError={() => {
+            setShowImg(false);
+          }}
+        />
+      ) : (
+        ' '
+      )}
+    </div>
+  );
+};
 
 const flag = false;
 const thoughts = [
@@ -155,7 +196,7 @@ const Home = ({ mpsE, clubsE }: Props) => {
             : { ...pc, isHidden: true },
         ),
       );
-    }, 100);
+    }, 50);
     return () => clearTimeout(t);
   }, [focused, setMps]);
 
@@ -182,7 +223,15 @@ const Home = ({ mpsE, clubsE }: Props) => {
                 className="flex-rows flex items-center p-1"
                 onClick={setOrToggleIfSame(id)}
               >
-                <Circle color={color} isHidden={isHidden} />
+                {focused === id ? (
+                  <CircleWithLogo
+                    color={color}
+                    isHidden={isHidden}
+                    imgUrl={`http://api.sejm.gov.pl/sejm/term${TERM}/clubs/${id}/logo`}
+                  />
+                ) : (
+                  <Circle color={color} isHidden={isHidden} />
+                )}
                 <div className="ml-2 text-lg text-white">{id}</div>
               </button>
             ))}
@@ -193,6 +242,14 @@ const Home = ({ mpsE, clubsE }: Props) => {
                 <Circle color={color} isHidden={isHidden} />
               </button>
             ))}
+          </div>
+
+          <div className="flex w-1/12 items-center text-5xl text-white">
+            {focused !== null &&
+              `${(
+                (mps.filter(mp => mp.club === focused).length / mps.length) *
+                100
+              ).toPrecision(2)}%`}
           </div>
           {flag && (
             <div className="flex flex-col">
