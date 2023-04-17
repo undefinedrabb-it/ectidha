@@ -29,7 +29,7 @@ export const clubsE = [
     fax: '(22) 694-28-16, (22) 694-28-17',
     id: 'Lewica',
     membersCount: 44,
-    name: 'Koalicyjny Klub Poselski Lewicy (Nowa Lewica, Razem)',
+    name: 'Koalicyjny Klub Parlamentarny Lewicy (Nowa Lewica, PPS, Razem)',
     phone: '',
     color: 'bg-[#851a64]',
   },
@@ -61,7 +61,7 @@ export const clubsE = [
     color: 'bg-[#bbbbbb]',
   },
   {
-    email: 'pps@kluby.sejm.pl',
+    email: 'kpld@kluby.sejm.pl',
     fax: '(22) 694-10-29',
     id: 'LD',
     membersCount: 3,
@@ -88,11 +88,11 @@ export const clubsE = [
     color: 'bg-[#000330]',
   },
   {
-    email: 'edmund.bojanowski@kluby.sejm.pl',
+    email: 'kp-porozumienie@kluby.sejm.pl',
     fax: '(22) 694-14-49',
     id: 'Porozumienie',
     membersCount: 4,
-    name: 'Koło Parlamentarne Porozumienie Jarosława Gowina',
+    name: 'Koło Parlamentarne Porozumienie',
     phone: '',
     color: 'bg-[#733c4d]',
   },
@@ -124,7 +124,7 @@ export const clubsE = [
     color: 'bg-[#633e1c]',
   },
   {
-    email: '',
+    email: 'kp-wolnosciowcy@kluby.sejm.pl',
     fax: '',
     id: 'Wolnościowcy',
     membersCount: 3,
@@ -133,3 +133,4 @@ export const clubsE = [
     color: 'bg-[#b5761d]',
   },
 ] as unknown as Readonly<ClubsEnhanedT>[];
+export const clubKs = clubsE.map(c => c.id) as Readonly<ClubK[]>;
