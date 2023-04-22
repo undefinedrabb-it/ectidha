@@ -39,7 +39,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Ectidha</title>
+        <title>SejmViz</title>
         <meta name="description" content="polish sejm deputies infographic" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
