@@ -1,4 +1,4 @@
-const TERM = 9;
+const TERM = 10;
 
 const [resMPs, resClubs] = await Promise.all([
   fetch(`http://api.sejm.gov.pl/sejm/term${TERM}/MP`),
@@ -7,17 +7,12 @@ const [resMPs, resClubs] = await Promise.all([
 
 const clubsC = {
   Lewica: 'bg-[#851a64]',
-  KP: 'bg-[#1bb100]',
   KO: 'bg-[#ff6e28]',
-  'niez.': 'bg-[#bbbbbb]',
-  LD: 'bg-[#d95136]',
-  Polska2050: 'bg-[#d77a4e]',
+  'PSL-TD': 'bg-[#d77a4e]',
+  'Polska2050-TD': 'bg-[#d77a4e]',
   Kukiz15: 'bg-[#000330]',
-  Porozumienie: 'bg-[#733c4d]',
-  PS: 'bg-[#8bc0ea]',
   PiS: 'bg-[#000dc0]',
   Konfederacja: 'bg-[#633e1c]',
-  Wolnościowcy: 'bg-[#b5761d]',
 };
 const clubS = Object.keys(clubsC);
 

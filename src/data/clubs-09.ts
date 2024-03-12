@@ -21,7 +21,7 @@ export type ClubT = {
   phone: string;
 };
 
-type ClubsEnhanedT = Pick<ClubT, 'id' | 'name'> & { color: string };
+export type ClubsEnhanedT = Pick<ClubT, 'id' | 'name'> & { color: string };
 
 export const clubsE = [
   {

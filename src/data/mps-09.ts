@@ -1,4 +1,4 @@
-import type { ClubT } from './clubs';
+import type { ClubT } from './clubs-09';
 
 export type MPT = {
   id: number;
