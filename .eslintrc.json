@@ -3,5 +3,9 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "vazco/typescript"]
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "vazco/typescript"
+  ]
 }

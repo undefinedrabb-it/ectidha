@@ -7,6 +7,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
+    "fix": "next lint --fix",
     "start": "next start",
     "export": "next build && next export",
     "genData": "node ./src/data/genData.mjs"

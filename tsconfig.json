@@ -22,7 +22,6 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    "src/genData.js"
   ],
   "exclude": ["node_modules", "__exclude"]
 }
